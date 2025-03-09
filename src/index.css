@@ -33,6 +33,10 @@ h1 {
   text-align: center;
 }
 
+.in {
+  min-height: 30vh;
+}
+
 input {
   width: 90%;
   padding: 10px;
@@ -62,7 +66,7 @@ button:hover {
   background: #fff;
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px #0000001a;
   margin: 10px 0;
   text-align: left;
 }
@@ -70,20 +74,6 @@ button:hover {
 .contact-card p {
   margin: 5px 0;
   font-size: 16px;
-}
-
-.contact-card button {
-  display: inline-block;
-  margin-top: 10px;
-  background: #28a745;
-}
-
-.contact-card button:last-child {
-  background: #dc3545;
-}
-
-.contact-card button:hover {
-  opacity: 0.8;
 }
 
 .empty-list {
@@ -131,7 +121,6 @@ button:hover {
   margin-top: 1rem;
 }
 
-/* Barre de recherche */
 .search-bar {
   width: 90%;
   padding: 10px;
@@ -150,7 +139,7 @@ button:hover {
 }
 
 .error {
-  color: red;
+  color: #e90808;
   font-size: 14px;
   margin-top: 5px;
 }

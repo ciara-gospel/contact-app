@@ -34,7 +34,7 @@ export default function ContactForm({ name, setName, phone, setPhone, email, set
   };
 
   return (
-    <div>
+    <div className="in">
       <input
         placeholder="Nom"
         value={name}

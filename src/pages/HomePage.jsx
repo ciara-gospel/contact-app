@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ContactContext } from "../context/ContactContext";
 import ContactForm from "../components/ContactForm";
@@ -7,12 +7,13 @@ import ContactForm from "../components/ContactForm";
 export default function HomePage() {
   const { addContact, editContact } = useContext(ContactContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const contactToEdit = location.state?.contact || null;
 
-  const [name, setName] = useState(contactToEdit?.name || "");
-  const [phone, setPhone] = useState(contactToEdit?.phone || "");
-  const [email, setEmail] = useState(contactToEdit?.email || "");
-  const [editIndex, setEditIndex] = useState(contactToEdit?.index ?? null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     if (contactToEdit) {
@@ -24,17 +25,36 @@ export default function HomePage() {
   }, [contactToEdit]);
 
   const handleSubmit = () => {
-    if (name.trim() && phone.trim() && email.trim()) {
-      if (editIndex !== null) {
-        editContact(editIndex, { name, phone, email });
-      } else {
-        addContact({ name, phone, email });
-      }
-      setName("");
-      setPhone("");
-      setEmail("");
-      setEditIndex(null);
+    if (!name.trim()) {
+      alert("Entrer un nom");
+      return;
     }
+    if (!/^\d+$/.test(phone)) {
+      alert("Entrer un numéro de téléphone valide");
+      return;
+    }
+    if (!email.includes("@") || !email.includes(".")) {
+      alert("Entrer un email valide");
+      return;
+    }
+
+    if (editIndex !== null) {
+      editContact(editIndex, { name, phone, email });
+    } else {
+      addContact({ name, phone, email });
+    }
+
+    // Réinitialiser les champs après modification
+    setName("");
+    setPhone("");
+    setEmail("");
+    setEditIndex(null);
+
+    useEffect(() => {
+        if (contacts.length > 0 && editIndex === null) {
+            navigate("/contacts")
+        }
+    }, [contacts, editIndex, navigate])
   };
 
   return (
@@ -48,7 +68,6 @@ export default function HomePage() {
         editMode={editIndex !== null}
       />
       
-      {/* 🔥 Bouton Explorer la liste (Remis comme demandé) */}
       <Link to="/contacts">
         <button className="act">Explorer la liste</button>
       </Link>
