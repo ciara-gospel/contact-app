@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import PropTypes from "prop-types";
 
 export const ContactContext = createContext();
 
@@ -13,10 +14,8 @@ export function ContactProvider({ children }) {
     setContacts(contacts.filter((_, i) => i !== index)); // Supprimer le contact à l'index donné
   };
 
-  const editContact = (index, contact) => {
-    const updatedContacts = [...contacts];
-    updatedContacts[index] = contact;
-    setContacts(updatedContacts);
+  const editContact = (index, updatedContacts) => {
+    setContacts(contacts.map((contact, i) => (i === index ? updatedContacts : contact)));
   };
 
   return (
@@ -24,4 +23,8 @@ export function ContactProvider({ children }) {
       {children}
     </ContactContext.Provider>
   );
+}
+
+ContactProvider.prototype = {
+  children: PropTypes.node.isRequired,
 }
